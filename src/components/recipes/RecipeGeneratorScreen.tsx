@@ -6,8 +6,9 @@ import { budget, cuisines, dietary, meal } from "@/libs/constants";
 
 export const RecipeGeneratorScreen: React.FC<RecipeGeneratorScreenProps> = ({
   onGenerateRecipes,
+  error,
+  setError,
 }) => {
-  const [error, setError] = useState<string | null>(null);
   const [preferences, setPreferences] = useState<Preferences>({
     diet: "",
     servings: 1,

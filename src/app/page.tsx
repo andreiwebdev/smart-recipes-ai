@@ -10,11 +10,9 @@ import { generateImage, generateRecipe } from "@/services";
 import { Loading } from "@/components/common";
 
 export default function Home() {
-  const [recipe, setRecipe] = useState<{
-    details: Recipe;
-    imageBase64: string;
-  } | null>(null);
+  const [recipe, setRecipe] = useState<{details: Recipe;imageBase64: string;} | null>(null);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleGenerateRecipe = async (preferences: Preferences) => {
     console.log("User Preferences:", preferences);
@@ -24,12 +22,17 @@ export default function Home() {
     try {
       const data = await generateRecipe(preferences);
       const image = await generateImage(data);
+
+      if (image.rateLimitExceeded && data.rateLimitExceeded) {
+        setError("You have reached the limit of 3 recipes per day. Please try again tomorrow. 😊");
+        return;
+      }
+
       setRecipe({
         details: data,
         imageBase64: image.data,
       });
-      console.log("Generated Recipe:", data);
-      console.log("Image Generated:", image);
+
     } catch (error) {
       console.error("Error generating recipe:", error);
     } finally {
@@ -45,7 +48,11 @@ export default function Home() {
             Tell us your preferences and we&apos;ll craft the ideal recipe
             tailored to you. 🥗🔍
           </h1>
-          <RecipeGeneratorScreen onGenerateRecipes={handleGenerateRecipe} />
+          <RecipeGeneratorScreen
+            onGenerateRecipes={handleGenerateRecipe}
+            error={error}
+            setError={setError}
+          />
         </>
       )}
       {recipe && (

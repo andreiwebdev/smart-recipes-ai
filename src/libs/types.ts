@@ -8,6 +8,8 @@ export type Preferences = {
 export type RecipeGeneratorScreenProps = {
   loading?: boolean;
   onGenerateRecipes: (preferences: Preferences) => void;
+  error: string | null;
+  setError: (error: string | null) => void;
 };
 
 export type Recipe = {

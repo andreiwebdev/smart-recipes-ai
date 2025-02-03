@@ -1,3 +1,4 @@
+import { ratelimit } from "@/services";
 import { openai } from "@ai-sdk/openai";
 import { experimental_generateImage as generateImage } from "ai";
 
@@ -5,6 +6,15 @@ const model = openai.image("dall-e-2");
 
 export async function POST(request: Request) {
   try {
+    const identifier = request.headers.get("X-Forwarded-For") || "unknown";
+    const result = await ratelimit.limit(identifier);
+    request.headers.set("X-RateLimit-Limit", result.limit.toString());
+    request.headers.set("X-RateLimit-Remaining", result.remaining.toString());
+
+    if (!result.success) {
+      return Response.json({ error: "Rate limit exceeded" }, { status: 429 });
+    }
+
     const data = await request.json();
 
     const ingredients = data.ingredients

@@ -1,4 +1,5 @@
 import { schema } from "@/libs";
+import { ratelimit } from "@/services";
 import { openai } from "@ai-sdk/openai";
 import { generateObject } from "ai";
 
@@ -12,6 +13,15 @@ const system =
 
 export async function POST(request: Request) {
   try {
+    const identifier = request.headers.get("X-Forwarded-For") || "unknown";
+    const result = await ratelimit.limit(identifier);
+    request.headers.set("X-RateLimit-Limit", result.limit.toString());
+    request.headers.set("X-RateLimit-Remaining", result.remaining.toString());
+
+    if (!result.success) {
+      return Response.json({ error: "Rate limit exceeded" }, { status: 429 });
+    }
+
     const recipePreferences = await request.json();
 
     const { object } = await generateObject({

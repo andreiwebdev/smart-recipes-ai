@@ -10,6 +10,10 @@ export const generateRecipe = async (preferences: Preferences) => {
       body: JSON.stringify(preferences),
     });
 
+    if (response.status === 429) {
+      return { rateLimitExceeded: true };
+    }
+
     const data = await response.json();
     return data.data;
   } catch (error) {

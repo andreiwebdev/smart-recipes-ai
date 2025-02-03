@@ -11,6 +11,11 @@ export const generateImage = async (preferences: Preferences) => {
     });
 
     const data = await response.json();
+
+    if (response.status === 429) {
+      return { rateLimitExceeded: true };
+    }
+    
     return data;
   } catch (error) {
     console.error("Error generating image: ", error);
