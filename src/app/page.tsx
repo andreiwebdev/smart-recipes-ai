@@ -56,6 +56,7 @@ export default function Home() {
       {recipe && (
         <RecipeOutputScreen
           recipe={recipe.details}
+          setRecipe={setRecipe}
           imageBase64={recipe.imageBase64}
         />
       )}
