@@ -1,12 +1,19 @@
 "use client";
 
 import { useState } from "react";
-import { RecipeGeneratorScreen, RecipeOutputScreen } from "@/components/recipes";
+import {
+  RecipeGeneratorScreen,
+  RecipeOutputScreen,
+} from "@/components/recipes";
 import { Preferences, Recipe } from "@/libs";
 import { generateImage, generateRecipe } from "@/services";
+import { Loading } from "@/components/common";
 
 export default function Home() {
-  const [recipe, setRecipe] = useState<{details: Recipe; imageBase64: string;} | null>(null);
+  const [recipe, setRecipe] = useState<{
+    details: Recipe;
+    imageBase64: string;
+  } | null>(null);
   const [loading, setLoading] = useState(false);
 
   const handleGenerateRecipe = async (preferences: Preferences) => {
@@ -38,10 +45,7 @@ export default function Home() {
             Tell us your preferences and we&apos;ll craft the ideal recipe
             tailored to you. 🥗🔍
           </h1>
-          <RecipeGeneratorScreen
-            loading={loading}
-            onGenerateRecipes={handleGenerateRecipe}
-          />
+          <RecipeGeneratorScreen onGenerateRecipes={handleGenerateRecipe} />
         </>
       )}
       {recipe && (
@@ -50,6 +54,7 @@ export default function Home() {
           imageBase64={recipe.imageBase64}
         />
       )}
+      {loading && <Loading />}
     </div>
   );
 }

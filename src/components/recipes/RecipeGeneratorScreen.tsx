@@ -6,10 +6,9 @@ import { budget, cuisines, dietary, meal } from "@/libs/constants";
 
 export const RecipeGeneratorScreen: React.FC<RecipeGeneratorScreenProps> = ({
   onGenerateRecipes,
-  loading,
 }) => {
-  const [ error, setError ] = useState<string | null>(null);
-  const [ preferences, setPreferences ] = useState<Preferences>({
+  const [error, setError] = useState<string | null>(null);
+  const [preferences, setPreferences] = useState<Preferences>({
     diet: "",
     servings: 1,
     cuisine: "",
@@ -29,8 +28,13 @@ export const RecipeGeneratorScreen: React.FC<RecipeGeneratorScreenProps> = ({
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
-    if (!preferences.diet || !preferences.servings || !preferences.cuisine || !preferences.budget) {
+
+    if (
+      !preferences.diet ||
+      !preferences.servings ||
+      !preferences.cuisine ||
+      !preferences.budget
+    ) {
       setError("Please fill in all fields before generating a recipe.");
       return;
     }
@@ -78,9 +82,8 @@ export const RecipeGeneratorScreen: React.FC<RecipeGeneratorScreenProps> = ({
         <button
           type="submit"
           className="w-full bg-green-500 text-white font-semibold py-2 rounded-md hover:bg-green-600 mt-4 lg:text-lg lg:py-3 disabled:opacity-50 disabled:cursor-not-allowed"
-          disabled={loading}
         >
-          {loading ? "Generating Recipe..." : "Generate Recipe"}
+          Generate Recipe
         </button>
       </form>
     </Card>
