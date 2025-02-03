@@ -5,18 +5,20 @@ import { useEffect, useState } from "react";
 
 export const Loading = () => {
   const [tip, setTip] = useState<string>(cookingTips[0]);
+  const [tipKey, setTipKey] = useState<number>(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
       const randomTip = cookingTips[Math.floor(Math.random() * cookingTips.length)];
       setTip(randomTip);
+      setTipKey((prevKey) => prevKey + 1);
     }, 5000);
 
     return () => clearInterval(interval);
-  });
+  }, []);
 
   return (
-    <div className="animate-fadeIn fixed top-0 left-0 w-full h-full flex flex-col justify-center items-center bg-black bg-opacity-50">
+    <div className="fixed top-0 left-0 w-full h-full flex flex-col justify-center items-center bg-black bg-opacity-50">
       <div className="bg-white rounded-lg p-3 shadow-lg w-full max-w-[300px] text-center">
         <div className="mb-4" role="status">
           <svg
@@ -37,7 +39,9 @@ export const Loading = () => {
           </svg>
         </div>
         <p className="text-base font-semibold">Generating recipe...</p>
-        <p className="mt-2 text-sm text-gray-600 italic">{tip}</p>
+        <p key={tipKey} className="mt-2 text-sm text-gray-600 italic animate-fadeIn">
+          {tip}
+        </p>
       </div>
     </div>
   );

@@ -81,7 +81,7 @@ export const RecipeGeneratorScreen: React.FC<RecipeGeneratorScreenProps> = ({
 
         <button
           type="submit"
-          className="w-full bg-green-500 text-white font-semibold py-2 rounded-md hover:bg-green-600 mt-4 lg:text-lg lg:py-3 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full bg-green-500 text-white font-semibold py-2 rounded-md hover:bg-green-600 transition-colors duration-300 mt-4 lg:text-lg lg:py-3 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           Generate Recipe
         </button>
