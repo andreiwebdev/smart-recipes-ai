@@ -12,14 +12,14 @@ type Props = {
 
 export const FormGroup = (props: Props) => {
   const { title, values, handleInputChange, inputName, otherOption } = props;
-  const [other, setOther] = useState(false);
+  const [ other, setOther ] = useState(false);
 
   const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     handleInputChange(e);
 
     console.log(e.target.value);
 
-    if (e.target.value === "other") {
+    if (e.target.id === `${inputName}-other`) {
       setOther(true);
     } else {
       setOther(false);
@@ -57,7 +57,7 @@ export const FormGroup = (props: Props) => {
                 type="radio"
                 id={`${inputName}-other`}
                 name={inputName}
-                value="other"
+                value=""
                 className="hidden peer"
               />
               <label

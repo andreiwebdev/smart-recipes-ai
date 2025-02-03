@@ -2,27 +2,53 @@
 
 import { useState } from "react";
 import { RecipeGeneratorScreen, RecipeOutputScreen } from "@/components/recipes";
-import { Preferences } from "@/libs";
+import { Preferences, Recipe } from "@/libs";
+import { generateImage, generateRecipe } from "@/services";
 
 export default function Home() {
-  const [preferences, setPreferences] = useState<Preferences | null>(null);
+  const [recipe, setRecipe] = useState<{details: Recipe; imageBase64: string;} | null>(null);
+  const [loading, setLoading] = useState(false);
 
-  const handleGenerateRecipes = async (preferences: Preferences) => {
+  const handleGenerateRecipe = async (preferences: Preferences) => {
     console.log("User Preferences:", preferences);
 
-    setPreferences(preferences);
+    setLoading(true);
+
+    try {
+      const data = await generateRecipe(preferences);
+      const image = await generateImage(data);
+      setRecipe({
+        details: data,
+        imageBase64: image.data,
+      });
+      console.log("Generated Recipe:", data);
+      console.log("Image Generated:", image);
+    } catch (error) {
+      console.error("Error generating recipe:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="flex flex-col justify-center min-h-screen max-w-xs mx-auto py-6 sm:max-w-md md:max-w-xl lg:max-w-3xl xl:max-w-6xl">
-      {!preferences && (
+      {!recipe && (
         <>
-          <h1 className="font-black text-center text-xl mb-6 lg:text-4xl xl:text-5xl">Tell us your preferences and we&apos;ll craft the ideal recipe tailored to you. 🥗🔍</h1>
-          <RecipeGeneratorScreen onGenerateRecipes={handleGenerateRecipes} />
+          <h1 className="font-black text-center text-xl mb-6 lg:text-4xl xl:text-5xl">
+            Tell us your preferences and we&apos;ll craft the ideal recipe
+            tailored to you. 🥗🔍
+          </h1>
+          <RecipeGeneratorScreen
+            loading={loading}
+            onGenerateRecipes={handleGenerateRecipe}
+          />
         </>
       )}
-      {preferences && (
-        <RecipeOutputScreen />
+      {recipe && (
+        <RecipeOutputScreen
+          recipe={recipe.details}
+          imageBase64={recipe.imageBase64}
+        />
       )}
     </div>
   );
