@@ -15,8 +15,6 @@ export default function Home() {
   const [error, setError] = useState<string | null>(null);
 
   const handleGenerateRecipe = async (preferences: Preferences) => {
-    console.log("User Preferences:", preferences);
-
     setLoading(true);
 
     try {

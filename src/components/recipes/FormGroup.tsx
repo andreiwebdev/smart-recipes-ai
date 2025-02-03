@@ -17,8 +17,6 @@ export const FormGroup = (props: Props) => {
   const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     handleInputChange(e);
 
-    console.log(e.target.value);
-
     if (e.target.id === `${inputName}-other`) {
       setOther(true);
     } else {
