@@ -8,7 +8,7 @@ interface CardProps {
 export const Card = ({ children, extraClasses = "" }: CardProps) => {
   return (
     <div
-      className={`bg-card shadow-lg rounded-lg p-6 w-full max-w-md mx-auto lg:max-w-lg ${extraClasses}`}
+      className={`animate-fadeIn bg-card shadow-lg rounded-lg p-6 w-full max-w-md mx-auto lg:max-w-lg ${extraClasses}`}
     >
       {children}
     </div>

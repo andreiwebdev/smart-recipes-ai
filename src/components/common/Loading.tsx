@@ -16,7 +16,7 @@ export const Loading = () => {
   });
 
   return (
-    <div className="fixed top-0 left-0 w-full h-full flex flex-col justify-center items-center bg-black bg-opacity-50">
+    <div className="animate-fadeIn fixed top-0 left-0 w-full h-full flex flex-col justify-center items-center bg-black bg-opacity-50">
       <div className="bg-white rounded-lg p-3 shadow-lg w-full max-w-[300px] text-center">
         <div className="mb-4" role="status">
           <svg

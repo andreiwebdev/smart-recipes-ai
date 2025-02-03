@@ -41,7 +41,7 @@ export default function Home() {
     <div className="flex flex-col justify-center min-h-screen max-w-xs mx-auto py-6 sm:max-w-md md:max-w-xl lg:max-w-3xl xl:max-w-6xl">
       {!recipe && (
         <>
-          <h1 className="font-black text-center text-xl mb-6 lg:text-4xl xl:text-5xl">
+          <h1 className="font-black text-center text-xl mb-6 lg:text-4xl xl:text-5xl animate-slideIn">
             Tell us your preferences and we&apos;ll craft the ideal recipe
             tailored to you. 🥗🔍
           </h1>
