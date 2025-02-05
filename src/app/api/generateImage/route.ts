@@ -10,6 +10,11 @@ export async function POST(request: Request) {
     const result = await ratelimit.limit(identifier);
     request.headers.set("X-RateLimit-Limit", result.limit.toString());
     request.headers.set("X-RateLimit-Remaining", result.remaining.toString());
+    
+    const expectedIdentifier = identifier ? identifier.split(",")[0].trim() : "unknown";
+    console.log("Incoming Headers: ", request.headers);
+    console.log("Identifier: ", identifier);
+    console.log("Expected Identifier: ", expectedIdentifier);
 
     if (!result.success) {
       return Response.json({ error: "Rate limit exceeded" }, { status: 429 });
@@ -32,7 +37,10 @@ export async function POST(request: Request) {
     });
 
     return Response.json(
-      { data: image.base64 },
+      { 
+        data: image.base64,
+        rateLimit: { limit: result.limit, remaining: result.remaining }
+      },
       {
         status: 200,
         headers: {
