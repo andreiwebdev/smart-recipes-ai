@@ -15,17 +15,18 @@ export async function POST(request: Request) {
     console.log("Incoming Headers: ", request.headers);
     console.log("Identifier: ", identifier);
     console.log("Expected Identifier: ", expectedIdentifier);
-
+    
     if (!result.success) {
       return Response.json({ error: "Rate limit exceeded" }, { status: 429 });
     }
-
+    
     const data = await request.json();
-
+    console.log("Incoming request: ", data);
+    
     const ingredients = data.ingredients
-      .map((ingredient: { name: string }) => ingredient.name)
-      .join(", ");
-
+    .map((ingredient: { name: string }) => ingredient.name)
+    .join(", ");
+    
     const { image } = await generateImage({
       model,
       prompt: `Create a professional, appetizing food photograph of ${data.name}. The dish should prominently feature ${ingredients}. Style it like a high-end restaurant's menu photo with elegant plating, soft natural lighting, and a shallow depth of field. Include garnishes and thoughtful presentation on a clean, minimal background.`,

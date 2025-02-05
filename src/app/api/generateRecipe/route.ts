@@ -28,6 +28,7 @@ export async function POST(request: Request) {
     }
 
     const recipePreferences = await request.json();
+    console.log("Incoming request: ", recipePreferences);
 
     const { object } = await generateObject({
       model,
