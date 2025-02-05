@@ -21,7 +21,7 @@ export default function Home() {
       const data = await generateRecipe(preferences);
       const image = await generateImage(data);
 
-      if (image.rateLimitExceeded && data.rateLimitExceeded) {
+      if (image.rateLimitExceeded || data.rateLimitExceeded) {
         setError("You have reached the limit of 3 recipes per day. Please try again tomorrow. 😊");
         return;
       }
